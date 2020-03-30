@@ -3,8 +3,6 @@
 class Puzzle
 {
 
-// 	private $testInput = 'Please+solve+this+puzzle%3A%0A+ABCD%0AA-%3E--%0AB-%3D--%0AC-%3C--%0AD%3E---%0A';
-
 	private $matrix = [];
 
 	private $coordinateChars = [];
@@ -30,12 +28,14 @@ class Puzzle
 		$this->fillEmptyCells();
 	}
 
-	public function print() {
+	public function print()
+	{
 		echo ' ' . implode('', $this->coordinateChars) . PHP_EOL;
 		foreach ($this->matrix as $index => $rowList) {
 			echo $this->coordinateChars[$index] . implode('', $rowList) . PHP_EOL;
 		}
 	}
+
 	// Private Functions
 	// =================
 
@@ -59,12 +59,18 @@ class Puzzle
 		return $parsedString;
 	}
 
+	/**
+	 * Fill the known cells from the parsed input
+	 * 
+	 * @param integer $row The row index
+	 * @param string $parsedLine The full row text from the input
+	 */
 	private function fillRowFromParse($row, $parsedLine)
 	{
 		$matches = [];
 		if (preg_match('/[<|>]/', $parsedLine, $matches, PREG_OFFSET_CAPTURE)) {
-// 			echo "Row #$row matches:" . PHP_EOL;
-// 			print_r($matches);
+			// echo "Row #$row matches:" . PHP_EOL;
+			// print_r($matches);
 
 			// Add control char to $row / $matches[1] coordinates and also mirror it
 			$controlChar = $matches[0][0];
@@ -82,6 +88,9 @@ class Puzzle
 		}
 	}
 
+	/**
+	 * Ater the parsing the remaining empty cells should be filled with the given control character
+	 */
 	private function fillEmptyCells()
 	{
 		for ($row = 0; $row < count($this->matrix); $row ++) {
@@ -94,7 +103,7 @@ class Puzzle
 	}
 
 	/**
-	 * Create a matrix array
+	 * Create a dim x dim matrix array
 	 *
 	 * @param integer $dimension
 	 */
@@ -108,18 +117,4 @@ class Puzzle
 			$this->matrix[] = $row;
 		}
 	}
-
-	// -----------------------------------------------
-	// Debug
-	// -----------------------------------------------
-// 	public function printTestInput()
-// 	{
-// 		return explode("\n", urldecode($this->testInput));
-// 	}
-
-// 	public function printArrays()
-// 	{
-// 		print_r($this->coordinateChars);
-// 		print_r($this->matrix);
-// 	}
 }
